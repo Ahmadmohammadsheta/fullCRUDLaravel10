@@ -1,15 +1,14 @@
 <?php
 namespace App\Repository;
 
-
 use Illuminate\Support\Collection;
-use App\Models\User;
+use App\Models\Product;
 
 /**
-* Interface UserRepositoryInterface
+* Interface ProductRepositoryInterface
 * @package App\Repositories
 */
-interface UserRepositoryInterface
+interface ProductRepositoryInterface
 {
     /**
      * @return Collection
@@ -18,19 +17,19 @@ interface UserRepositoryInterface
 
    /**
     * @param array $attributes
-    * @return User
+    * @return Product
     */
-   public function create(array $attributes): User;
+   public function create(array $attributes): Product;
 
    /**
     * @param $id
-    * @return User
+    * @return Product
     */
-   public function find($id): ?User;
+   public function find($id): ?Product;
 
    /**
     * @param id $attributes
-    * @return User
+    * @return Product
     */
     public function edit($id, array $attributes);
 }

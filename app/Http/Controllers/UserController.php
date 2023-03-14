@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Repository\UserRepositoryInterface;
+use App\Http\Traits\ResponseTrait;
 
 class UserController extends Controller
 {
+    use ResponseTrait;
     protected $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)
@@ -21,7 +23,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('users.users.index', ['users' => $this->userRepository->all()]);
+        return view('users.users.index', ['response' => ($this->sendResponse($this->userRepository->all(), "", 200))]);
+        return view('users.users.index', ['data' => $this->userRepository->all()]);
     }
 
     /**
@@ -29,7 +32,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.users.create');
     }
 
     /**
@@ -37,7 +40,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->userRepository->create($request->all());
+        return view('users.users.index', ['response' => ($this->sendResponse($this->userRepository->all(), "added success", 200))]);
     }
 
     /**
@@ -45,7 +49,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.users.show', ['user' => $this->userRepository->find($user->id)]);
+        return view('users.users.show', ['response' => ($this->sendResponse($this->userRepository->find($user->id), "", 200))]);
     }
 
     /**
@@ -53,7 +57,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.users.index', ['user' => $this->userRepository->find($user->id)]);
+        return view('users.users.edit', ['response' => ($this->sendResponse($this->userRepository->find($user->id), "", 200))]);
     }
 
     /**
@@ -61,8 +65,8 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        // return view('users.users.index', $this->sendResponse($this->userRepository->edit($user->id, $request->all), "تم التعديل", 200));
-        return redirect('/')->with( $this->sendResponse($this->userRepository->edit($user->id, $request->all), "تم التعديل", 200));
+        $this->userRepository->edit($user->id, $request->all());
+        return view('users.users.index', ['response' => ($this->sendResponse($this->userRepository->all(), "تم التعديل", 200))]);
     }
 
     /**
@@ -71,5 +75,19 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function search(Request $request)
+    {
+        if ($request->ajax()) {
+            $search = $request->search;
+            $data   = User::where("name", "LIKE", "%$search%")->get();
+            return view('users.users.search', ['response' => [
+                'data' => $data,
+            ]]);
+        }
     }
 }

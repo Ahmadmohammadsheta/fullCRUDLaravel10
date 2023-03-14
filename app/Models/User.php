@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -63,7 +64,7 @@ class User extends Authenticatable
     {
         return new Attribute(
             get: fn ($value) =>  $value ? User::find($value)->name : 'self',
-            set: fn ($value) =>  auth()->id ?: '',
+            set: fn ($value) =>  auth()->id() ?: '',
         );
     }
 
@@ -74,7 +75,28 @@ class User extends Authenticatable
     {
         return new Attribute(
             get: fn ($value) =>  $value ? User::find($value)->name : 'non',
-            set: fn ($value) =>  auth()->id ?: '',
+            set: fn ($value) =>  auth()->id() ?: '',
+        );
+    }
+
+    /**
+     * @return Attribute;
+     */
+    protected function rememberToken(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) =>  $value,
+            set: fn ($value) => Str::random(10),
+        );
+    }
+
+    /**
+     * @return Attribute;
+     */
+    protected function password(): Attribute
+    {
+        return new Attribute(
+            set: fn ($value) => $value ? bcrypt($value) : bcrypt('12345678'),
         );
     }
 }

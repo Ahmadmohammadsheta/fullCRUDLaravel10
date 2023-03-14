@@ -14,10 +14,13 @@ Trait ResponseTrait
             'success' => true,
             'message' => $message,
             'data'    => $data,
+            'code'    => $code,
         ] + $additional;
 
 
-        return response()->json($response, $code);
+        return $response;
+
+        // return response()->json($response, $code);
     }
 
     /**

@@ -32,9 +32,7 @@ class RegisterUserController extends Controller
             $success['name'] =  $user;
             return view('users.users.index')->with($success, 'تم التسجيل بنجاح.');
         } else {
-            return back()->with([
-                'message' => "unauthenticated",
-            ], 422);
+            return back()->with(['message' => "unauthenticated", ], 422);
         }
     }
 }

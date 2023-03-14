@@ -1,32 +1,28 @@
 <div class="form-group mb-3">
     <input name="text" id="search" type="search" value="" placeholder="search" class="form-control w-50">
 </div>
-<input type="hidden" id="url_input" value="{{ route('users.index') }}">
-<input type="hidden" id="token_input" value="{{ csrf_token() }}">
 <div class="table-responsive">
-
-    <a class="btn btn-primary" href="{{ route('users.create') }}">{{ __('Add New User') }}</a>
+    <!-- Button trigger modal -->
+    <a href="" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#productModal">{{ __('Add Prouduct') }}</a>
     <table class="table table-bordered border-dark mt-3">
         <thead>
                 <tr class="border-dark">
                     <th class="text-center text-dark">{{ __('Name') }}</th>
-                    <th class="text-center text-dark">{{ __('Email') }}</th>
-                    <th class="text-center text-dark">{{ __('Role') }}</th>
+                    <th class="text-center text-dark">{{ __('sale_price') }}</th>
                     <th class="text-center text-dark">{{ __('Created by') }}</th>
                     <th class="text-center text-dark">{{ __('Updated by') }}</th>
                     <th class="text-center text-dark">{{ __('Action') }}</th>
                 </tr>
           </thead>
           <tbody>
-                @foreach ($response['data'] as $user)
+                @foreach ($response['data'] as $product)
                 <tr>
-                    <td class="text-center text-dark"><a href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->name }}</a></td>
-                    <td class="text-center text-dark">{{ $user->email }}</td>
-                    <td class="text-center text-dark">{{ $user->role }}</td>
-                    <td class="text-center text-dark">{{ $user->created_by }}</td>
-                    <td class="text-center text-dark">{{ $user->updated_by }}</td>
-                    <td>
-                        <a class="btn bg-dark m-auto p-0" href="{{ route('users.edit', ['user' => $user->id]) }}"><img src="{{ asset('assets/dashboard/icons/Web/icons8-edit-kiranshastry-gradient-32.png') }}" alt=""></a>
+                    <td class="text-center text-dark"><a href="{{ route('products.show', ['product' => $product->id]) }}">{{ $product->name }}</a></td>
+                    <td class="text-center text-dark">{{ $product->sale_price }}</td>
+                    <td class="text-center text-dark">{{ $product->created_by }}</td>
+                    <td class="text-center text-dark">{{ $product->updated_by }}</td>
+                    <td class="text-center">
+                        <a class="btn bg-dark m-auto p-0" href="{{ route('products.edit', ['product' => $product->id]) }}"><img src="{{ asset('assets/dashboard/icons/Web/icons8-edit-kiranshastry-gradient-32.png') }}" alt=""></a>
                         <a class="btn bg-dark m-auto p-0" href=""><img src="{{ asset('assets/dashboard/icons/Web/icons8-remove-windows-11-color-32.png') }}" alt=""></a>
                     </td>
                 </tr>

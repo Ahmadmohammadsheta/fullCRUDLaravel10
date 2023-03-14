@@ -16,10 +16,6 @@ use App\Http\Controllers\Auth\RegisterUserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-// Route::get('/', function () {
-
-//     return view('welcome');
-// });
 
 //-----------------------------------------------------------------------------------------------------------
 Route::prefix('register')->name('register')->group(function () {
@@ -49,19 +45,40 @@ Route::prefix('logout')->name('logout')->middleware(['auth'])->group(function ()
 });
 //______________________________________________________________________________________________________________________
 
+Route::controller(UserController::class)->group(function () {
+        Route::get('/index', 'index')->name('index');
+});
+
 //-----------------------------------------------------------------------------------------------------------
 /**
  * users role owner routes
  */
-Route::prefix('/')->name('users')->middleware(['auth'])->group(function () {
+Route::prefix('/users')->name('users')->middleware(['auth'])->group(function () {
     Route::controller(UserController::class)->group(function () {
-        Route::get('/', 'index')->name('.index');
-        Route::get('/create', 'create')->name('.create');
-        Route::post('/', 'store')->name('.store');
-        Route::get('/{user}', 'show')->name('.show');
-        Route::get('/{user}/edit', 'edit')->name('.edit');
-        Route::Put('/{user}', 'update')->name('.update');
-        Route::delete('/{user}', 'destroy')->name('.destroy');
+        Route::get('', 'index')->name('.index');
+        Route::get('create', 'create')->name('.create');
+        Route::post('', 'store')->name('.store');
+        Route::get('{user}', 'show')->name('.show');
+        Route::get('{user}/edit', 'edit')->name('.edit');
+        Route::Put('{user}', 'update')->name('.update');
+        Route::delete('{user}', 'destroy')->name('.destroy');
+    });
+});
+//______________________________________________________________________________________________________________________
+
+//-----------------------------------------------------------------------------------------------------------
+/**
+ * products routes
+ */
+Route::prefix('/')->name('products')->middleware(['auth'])->group(function () {
+    Route::controller(ProductController::class)->group(function () {
+        Route::get('', 'index')->name('.index');
+        Route::get('create', 'create')->name('.create');
+        Route::post('', 'store')->name('.store');
+        Route::get('{product}', 'show')->name('.show');
+        Route::get('{product}/edit', 'edit')->name('.edit');
+        Route::Put('{product}', 'update')->name('.update');
+        Route::delete('{product}', 'destroy')->name('.destroy');
     });
 });
 //______________________________________________________________________________________________________________________

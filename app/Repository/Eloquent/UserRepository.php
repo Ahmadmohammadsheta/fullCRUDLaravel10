@@ -39,7 +39,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         $attributes['created_by'] = auth()->id();
         $user = $this->model->create($attributes);
-        $user->categories()->attach($attributes['category_id'], ['project_id'=> $user->level->project_id]);
         return $user;
     }
 
